@@ -1,0 +1,36 @@
+# 本地数据集与 Python 运行缓存不纳入版本控制。
+.venv/
+__pycache__/
+.pytest_cache/
+data/*.parquet
+
+# 训练、导出和评估产生的大型运行产物不纳入版本控制。
+checkpoints/
+exports/
+reports/
+*.log
+# Git 部署时运行目录、数据和模型在仓库之外管理。
+runs/
+deploy-cache/
+*.safetensors
+*.parquet
+
+# 现场诊断与机器缓存不进入代码发布；必要文档在项目根目录保留。
+artifacts/
+.superpowers/
+.hydra/
+.cache/
+core
+core.*
+*.dmp
+*.etl
+*.vhdx
+
+# 密钥和凭据不得进入版本同步或发布包。
+.env
+.env.*
+.ssh/
+*.pem
+*.key
+id_ed25519*
+id_rsa*

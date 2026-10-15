@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "calculator-agent-grpo"
+version = "0.1.0"
+description = "A calculator tool agent trained with GRPO on verl"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "datasets==5.0.0",
+    "hydra-core==1.3.3",
+    "pyarrow==24.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra"
+# 从工作区外调用测试时也能导入业务模块；不依赖 WSL 私有绝对路径。
+pythonpath = ["."]
+

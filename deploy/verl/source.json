@@ -1,0 +1,22 @@
+{
+  "upstream": "https://github.com/verl-project/verl.git",
+  "commit": "1876b06d0a3e4e71e06230be10af14492ca8a75b",
+  "base_archive_sha256": "cf43327122bf9b33624dd1c3f5eac104d0d27ec8cbcf2ba57dc0e5c2dcb5a0f9",
+  "source_release_sha256": "4e3df9e58de9c31e205b44b720ba25025f7d9250ba652891c4d0a44695832d1d",
+  "patches": [
+    "01-dependency-sources.patch",
+    "02-hermes-tool-stop.patch",
+    "03-deterministic-priority.patch",
+    "04-single-gpu-state-dict.patch"
+  ],
+  "files": {
+    "01-dependency-sources.patch": "5731e30d3f76907ff421835c2e6a12db0e47908b9c4ef836c7ca68e260c1239b",
+    "02-hermes-tool-stop.patch": "bd986a284c20a35194c294e7cc7bed81481a84804c88505e94c387a7d14f2696",
+    "03-deterministic-priority.patch": "697d2bd0e85660a328c6d7afe562aa9b3b4e7e71509a6669d57c7b464ebf1f40",
+    "04-single-gpu-state-dict.patch": "069fe4e554b0a756b752473b7d8e97b74a71404e7025aa8d581f1bbb29524d4b",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "Notice.txt": "f40ed94400d2b9636afb1f8019ab817255b19892d426c40eebe0c60d4850a1c9",
+    "pyproject.toml": "40685aec240582f104ba98677b942b9f66ced4a7e1e00f4d9d52150fdbff7ef8",
+    "uv.lock": "2bde34ff21e7283607e33438520df9111c332751310bade35918429269097160"
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "size": 107,
+      "sha256": "1fde5623017a3440c5c7d25bb7083c619aed7aa73d2ce91a38b544b3a3d417d0"
+    },
+    {
+      "path": ".gitignore",
+      "size": 619,
+      "sha256": "ec3bd39b9173db18ca88db64c35a13b8dd8ff969aba5f3a946bf7044e6a2767e"
+    },
+    {
+      "path": "README.md",
+      "size": 6710,
+      "sha256": "8fb11185a7d1ca84c44320f5f72a7344fa8a87cc1379312d9bc26544d52bcadd"
+    },
+    {
+      "path": "calculator_tool.py",
+      "size": 5856,
+      "sha256": "d27121678dbe780636d7c0e47e948d4ab6f34df815548f821625efd7f3576480"
+    },
+    {
+      "path": "configs/calculator_grpo_vast.yaml",
+      "size": 3631,
+      "sha256": "3ea97ccac31eb89074816a2af970eae6066dff7b87ac82366abce6b0ab1dd85f"
+    },
+    {
+      "path": "dataset.py",
+      "size": 1512,
+      "sha256": "9be0bef7997e53b61729d58b556843b792d69990bdb0200b89c48f3b0e8f616a"
+    },
+    {
+      "path": "deploy/verl/01-dependency-sources.patch",
+      "size": 6171,
+      "sha256": "5731e30d3f76907ff421835c2e6a12db0e47908b9c4ef836c7ca68e260c1239b"
+    },
+    {
+      "path": "deploy/verl/02-hermes-tool-stop.patch",
+      "size": 2499,
+      "sha256": "bd986a284c20a35194c294e7cc7bed81481a84804c88505e94c387a7d14f2696"
+    },
+    {
+      "path": "deploy/verl/03-deterministic-priority.patch",
+      "size": 1654,
+      "sha256": "697d2bd0e85660a328c6d7afe562aa9b3b4e7e71509a6669d57c7b464ebf1f40"
+    },
+    {
+      "path": "deploy/verl/04-single-gpu-state-dict.patch",
+      "size": 905,
+      "sha256": "069fe4e554b0a756b752473b7d8e97b74a71404e7025aa8d581f1bbb29524d4b"
+    },
+    {
+      "path": "deploy/verl/LICENSE",
+      "size": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "deploy/verl/Notice.txt",
+      "size": 57,
+      "sha256": "f40ed94400d2b9636afb1f8019ab817255b19892d426c40eebe0c60d4850a1c9"
+    },
+    {
+      "path": "deploy/verl/pyproject.toml",
+      "size": 20985,
+      "sha256": "40685aec240582f104ba98677b942b9f66ced4a7e1e00f4d9d52150fdbff7ef8"
+    },
+    {
+      "path": "deploy/verl/source.json",
+      "size": 1245,
+      "sha256": "c3796b9177f352cf86c81a19a95d8b8a728435b582961032486bb4a08ba4a465"
+    },
+    {
+      "path": "deploy/verl/uv.lock",
+      "size": 583871,
+      "sha256": "2bde34ff21e7283607e33438520df9111c332751310bade35918429269097160"
+    },
+    {
+      "path": "evaluate_model.py",
+      "size": 36568,
+      "sha256": "a3d889da13ccce89bda9185b2f585eceb1df835a39c82e9a469c4461103803b4"
+    },
+    {
+      "path": "prepare_data.py",
+      "size": 11771,
+      "sha256": "007806161d6e4cce045a0d5ab1d12297060b647ce90835419ba95d066931a182"
+    },
+    {
+      "path": "pyproject.toml",
+      "size": 628,
+      "sha256": "1fbf59dfab6d721e3df24e51801999dfe73b416b62f80bf0274ebaa3f107fc63"
+    },
+    {
+      "path": "reward_function.py",
+      "size": 6914,
+      "sha256": "9f1e77f0da26bfe9aa6b6b584aed2de7660bb8e8868f57bf0744f570731a15cf"
+    },
+    {
+      "path": "run_math_agent.sh",
+      "size": 3721,
+      "sha256": "b20b120eabe80eea11ef87c9f9449d1c91f200b8abc83c4c4addf90f8b647603"
+    },
+    {
+      "path": "scripts/__init__.py",
+      "size": 76,
+      "sha256": "2bc96a9e9ac541932ffa83a14c6a793ca5875263578a75ee9dcbcdb06bf1ac09"
+    },
+    {
+      "path": "scripts/check_environment.py",
+      "size": 13784,
+      "sha256": "b82530b6d19d7d5d8afe82c45f01c36ab4e5fdbfdf759b9dab3c67b4e2ce3e3d"
+    },
+    {
+      "path": "scripts/merge_checkpoint.sh",
+      "size": 3435,
+      "sha256": "f532c81db4823b95fafa245db5d420cbc0889648e7e749fb4cd69aacb4874b68"
+    },
+    {
+      "path": "scripts/remote/canary.sh",
+      "size": 2701,
+      "sha256": "e50837dde1b3139da5d47741d73c0f4dc39b0be1a0f38460ea89b93de041448e"
+    },
+    {
+      "path": "scripts/remote/git_deploy.py",
+      "size": 8464,
+      "sha256": "17a283100d42fb36097c914d37c34f304c76f11439b33d2b942a1f6c1f0bd6f8"
+    },
+    {
+      "path": "scripts/remote/prepare_inputs.py",
+      "size": 3573,
+      "sha256": "df6f99586d27d14a84b561d9b69f2b67d545a0a71f7f7422337d7e375a05a69e"
+    },
+    {
+      "path": "scripts/validate_data.py",
+      "size": 10440,
+      "sha256": "40c83ccf23c163cbe66c351070ac8a98fbde86449b87acd7d9546f82af7d6de0"
+    },
+    {
+      "path": "scripts/validate_training_config.py",
+      "size": 9639,
+      "sha256": "290d763816b5d437dd744f090b652f8bf11b08e0cac5e50c7946a833fc881fae"
+    },
+    {
+      "path": "scripts/verify_canary_run.py",
+      "size": 13519,
+      "sha256": "be30fd49c38e6dd0f92031e8a05af8c0ae27c3d338d32cf41343e602302ef52f"
+    },
+    {
+      "path": "tests/test_calculator_tool.py",
+      "size": 4638,
+      "sha256": "6b3819eb3b99d85b4a426cfcfa586dd27ce132620f21f84f43b8d5db81aa796b"
+    },
+    {
+      "path": "tests/test_evaluate_model.py",
+      "size": 40744,
+      "sha256": "3b12ffab33020d19886b8c365c7e85ce6f72d00e6002bbd8fbe2a16e74fa0132"
+    },
+    {
+      "path": "tests/test_import_safety.py",
+      "size": 2443,
+      "sha256": "1ba5415e8d3c203e71caccf3cce393357f6275a9e28d35e9b541d3c84c5aa0c6"
+    },
+    {
+      "path": "tests/test_prepare_data.py",
+      "size": 11163,
+      "sha256": "3bcc730814bb9629c75f2b79067e149d4cbcc2ddfe6c5a6e4d8939312955c356"
+    },
+    {
+      "path": "tests/test_remote_deploy.py",
+      "size": 4559,
+      "sha256": "4578c343d2c23f8bcad3dae2240c9f38706593e1d960b399b4caea7e122f0476"
+    },
+    {
+      "path": "tests/test_reward_function.py",
+      "size": 6928,
+      "sha256": "e1542ee7276596b72cf7fe6f1f03dda3d5ef11eaf659eecf4d35c653dcb6199b"
+    },
+    {
+      "path": "tests/test_validate_data.py",
+      "size": 6009,
+      "sha256": "2f467480408d13f344e97c6de0e9791cd833fb17a69f41a69db4f860681967a6"
+    },
+    {
+      "path": "tools/calculator_function_tool.py",
+      "size": 763,
+      "sha256": "8fbd850f02ad2f2b075dce3c30b47fe9e59f37480bf580d59230a2cbfdb177d7"
+    }
+  ]
+}

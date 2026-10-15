@@ -1,0 +1,40 @@
+--- a/verl/trainer/ppo/v1/agent_loop_tq.py
++++ b/verl/trainer/ppo/v1/agent_loop_tq.py
+@@ -47,6 +47,23 @@
+ async def _settle_session_tasks(tasks: list[asyncio.Task[Any]]) -> list[BaseException]:
+     results = await asyncio.gather(*tasks, return_exceptions=True)
+     return [result for result in results if isinstance(result, BaseException)]
++
++
++def _deterministic_session_priority(trajectory: dict, session_id: int) -> int:
++    """Give each deterministic TQ session a stable, collision-free request key."""
++    parts = (
++        (int(trajectory["validate"]), 1),
++        (int(trajectory["step"]), 15),
++        (int(trajectory["sample_index"]), 31),
++        (int(trajectory["rollout_n"]), 8),
++        (session_id, 8),
++    )
++    priority = 0
++    for part, bits in parts:
++        if not 0 <= part < (1 << bits):
++            raise ValueError("Deterministic trajectory index exceeds its bounded request-key field")
++        priority = (priority << bits) | part
++    return priority
+ 
+ 
+ @ray.remote
+@@ -123,7 +140,12 @@
+             for i in range(n):
+                 task = asyncio.create_task(
+                     self._run_agent_loop(
+-                        run_sampling_params, trajectory=trajectory, trace=trace, session_id=i, **prompt
++                        run_sampling_params,
++                        trajectory=trajectory,
++                        trace=trace,
++                        session_id=i,
++                        priority=_deterministic_session_priority(trajectory, i) if config.full_determinism else 0,
++                        **prompt,
+                     )
+                 )
+                 tasks.append(task)

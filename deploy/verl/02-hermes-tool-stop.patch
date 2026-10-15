@@ -1,0 +1,44 @@
+--- a/verl/experimental/agent_loop/tool_agent_loop.py
++++ b/verl/experimental/agent_loop/tool_agent_loop.py
+@@ -235,6 +235,16 @@
+         self, agent_data: AgentData, sampling_params: dict[str, Any], ignore_termination: bool = False
+     ) -> AgentState:
+         """Handle the generating state: generate model response and check for tool calls."""
++        if os.getenv("CALCULATOR_AGENT_HERMES_TOOL_STOP", "0") == "1" and self.rollout_config.name == "sglang":
++            # 轨迹预算包含工具上下文；按剩余mask长度限长，而非按初始prompt的空余补预算。
++            remaining = max(0, self.response_length - len(agent_data.response_mask))
++            if remaining == 0:
++                return AgentState.TERMINATED
++            sampling_params = dict(sampling_params)
++            requested = sampling_params.pop("max_tokens", remaining)
++            requested = sampling_params.get("max_new_tokens", requested)
++            sampling_params["max_new_tokens"] = min(remaining, requested)
++
+         # Inject tool parser stop tokens so generation halts after each tool call
+         if self.tool_parser.stop_token_ids:
+             stop_token_ids = list(set((sampling_params.get("stop_token_ids") or []) + self.tool_parser.stop_token_ids))
+--- a/verl/experimental/agent_loop/tool_parser.py
++++ b/verl/experimental/agent_loop/tool_parser.py
+@@ -103,6 +103,22 @@
+         self.tool_call_start_token: str = "<tool_call>"
+         self.tool_call_end_token: str = "</tool_call>"
+         self.tool_call_regex = regex.compile(r"<tool_call>(.*?)</tool_call>", regex.DOTALL)
++
++    @property
++    def stop_token_ids(self) -> list[int]:
++        """项目显式启用时，在模型生成工具闭合标签后交回程序执行。"""
++        if os.getenv("CALCULATOR_AGENT_HERMES_TOOL_STOP", "0") != "1":
++            return []
++        # 停止编号必须来自当前tokenizer，不能跨模型硬编码或只使用半个标签。
++        token_ids = self.tokenizer.encode(self.tool_call_end_token, add_special_tokens=False)
++        if (
++            len(token_ids) != 1
++            or isinstance(token_ids[0], bool)
++            or not isinstance(token_ids[0], int)
++            or self.tokenizer.decode(token_ids, skip_special_tokens=False) != self.tool_call_end_token
++        ):
++            raise ValueError("Hermes工具停止要求闭合标签是可原样解码的单个token")
++        return token_ids
+ 
+     @rollout_trace_op
+     async def extract_tool_calls(

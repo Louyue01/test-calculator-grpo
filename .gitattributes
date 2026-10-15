@@ -1,0 +1,2 @@
+# Linux 启动脚本保持 LF，避免 Windows Git checkout 后出现 bash CRLF 错误。
+*.sh text eol=lf

@@ -1,0 +1,15 @@
+diff --git a/verl/workers/engine/fsdp/transformer_impl.py b/verl/workers/engine/fsdp/transformer_impl.py
+--- a/verl/workers/engine/fsdp/transformer_impl.py
++++ b/verl/workers/engine/fsdp/transformer_impl.py
+@@ -482,7 +482,10 @@ class FSDPEngine(BaseEngine):
+             FSDP.set_state_dict_type(
+                 module,
+                 state_dict_type=StateDictType.FULL_STATE_DICT,
+-                state_dict_config=FullStateDictConfig(),
++                # A CPU full state dict avoids cloning the complete model on GPU before
++                # SGLang streams each tensor back to CUDA for IPC weight synchronization.
++                # This is especially important for memory-constrained single-GPU WSL runs.
++                state_dict_config=FullStateDictConfig(offload_to_cpu=True, rank0_only=True),
+             )
+         elif fsdp_version(module) == 1:
+             FSDP.set_state_dict_type(
