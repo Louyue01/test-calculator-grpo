@@ -9,6 +9,14 @@
     "03-deterministic-priority.patch",
     "04-single-gpu-state-dict.patch"
   ],
+  "patched_files": {
+    "pyproject.toml": "40685aec240582f104ba98677b942b9f66ced4a7e1e00f4d9d52150fdbff7ef8",
+    "uv.lock": "2bde34ff21e7283607e33438520df9111c332751310bade35918429269097160",
+    "verl/experimental/agent_loop/tool_agent_loop.py": "ce401de9d7ac1ce0601a3e5e49a6d8a5103ee8ac6a1c23b2ef977b40ae691d3e",
+    "verl/experimental/agent_loop/tool_parser.py": "5872a2769a8036b4132f2553b3334ff90c381ec3baa19fd3da6e6269d651972e",
+    "verl/trainer/ppo/v1/agent_loop_tq.py": "b1175058310bba787e9dca74589df2ad94b21df5520fdcfe1388b30124de475d",
+    "verl/workers/engine/fsdp/transformer_impl.py": "279c7ce82fe4a92c23681bab059890f60aef97973fe4b6b5643405fadc1dd516"
+  },
   "files": {
     "01-dependency-sources.patch": "5731e30d3f76907ff421835c2e6a12db0e47908b9c4ef836c7ca68e260c1239b",
     "02-hermes-tool-stop.patch": "bd986a284c20a35194c294e7cc7bed81481a84804c88505e94c387a7d14f2696",

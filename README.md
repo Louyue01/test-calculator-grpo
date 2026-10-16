@@ -49,6 +49,24 @@ python3 scripts/remote/git_deploy.py install \
 离线重建可使用 `--base-archive <已验收的LF基线.tar>` 替代联网选项。
 不上传本机虚拟环境，不应用 WSL VMM/ref/blocking 补丁。
 
+源码完整性清单采用 schema_version=2，必须覆盖四个补丁实际修改的全部六个文件。
+安装前同时核对发布资产中的预期摘要与现场文件，不接受空清单、漏项或现场自行更新的摘要。
+纯只读复核可执行：
+
+```bash
+python3 scripts/remote/git_deploy.py verify-source --verl-source /workspace/verl/calculator-native-v1
+```
+
+旧部署清单会被拒绝。修复代码发布、拉取并获批后，可显式重建旧清单：
+
+```bash
+python3 scripts/remote/git_deploy.py record-source \
+  --verl-source /workspace/verl/calculator-native-v1 --replace-marker
+```
+
+此命令先核对全部六个源码文件的已批准摘要，通过才替换清单；不会重置源码、安装或训练。
+源码已改动时不能靠重新计算现场摘要放行，需另行审查和发布。
+
 安装组合：PyTorch 2.11.0+cu130、SGLang 0.5.12、Transformers 5.9.0、Ray 2.55.1。
 `deploy/verl/uv.lock` 是实际锁，根目录 pyproject 只声明项目及 CPU 开发依赖。
 首次安装仍须验证 wheel 来源、GPU 架构和运行库；不能假定本机锁在云端必然成功。

@@ -13,8 +13,8 @@
     },
     {
       "path": "README.md",
-      "size": 6710,
-      "sha256": "8fb11185a7d1ca84c44320f5f72a7344fa8a87cc1379312d9bc26544d52bcadd"
+      "size": 7545,
+      "sha256": "38084ba598aa0e3dcdf591d051b8f06607d25cb5cf6a2cd6c429a7e187702ef8"
     },
     {
       "path": "calculator_tool.py",
@@ -68,8 +68,8 @@
     },
     {
       "path": "deploy/verl/source.json",
-      "size": 1245,
-      "sha256": "c3796b9177f352cf86c81a19a95d8b8a728435b582961032486bb4a08ba4a465"
+      "size": 1917,
+      "sha256": "6eead5c70504ca7048ce5d8a45cdafb2b1b4d5b429848db9fce939644c188093"
     },
     {
       "path": "deploy/verl/uv.lock",
@@ -123,8 +123,8 @@
     },
     {
       "path": "scripts/remote/git_deploy.py",
-      "size": 8464,
-      "sha256": "17a283100d42fb36097c914d37c34f304c76f11439b33d2b942a1f6c1f0bd6f8"
+      "size": 11251,
+      "sha256": "aab3cff2228780315361263f906445664275ed17250d89d61bbdda7aa488a2aa"
     },
     {
       "path": "scripts/remote/prepare_inputs.py",
@@ -168,8 +168,8 @@
     },
     {
       "path": "tests/test_remote_deploy.py",
-      "size": 4559,
-      "sha256": "4578c343d2c23f8bcad3dae2240c9f38706593e1d960b399b4caea7e122f0476"
+      "size": 13469,
+      "sha256": "334e7ff26d7961effed88bce524643e2a0160a63176b70f3d0d3185759e9cdfc"
     },
     {
       "path": "tests/test_reward_function.py",

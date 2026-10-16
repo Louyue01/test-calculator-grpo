@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import shutil
 import subprocess
 import tarfile
@@ -17,6 +18,10 @@ BASE_ARCHIVE_SHA = "cf43327122bf9b33624dd1c3f5eac104d0d27ec8cbcf2ba57dc0e5c2dcb5
 BASE_COMMIT = "1876b06d0a3e4e71e06230be10af14492ca8a75b"
 PATCH_NAMES = ["01-dependency-sources.patch", "02-hermes-tool-stop.patch",
                "03-deterministic-priority.patch", "04-single-gpu-state-dict.patch"]
+# 这里列出四个原生补丁真正修改的全部文件，不以现场 marker 自报的集合为准。
+PATCHED_FILES = {"pyproject.toml", "uv.lock", "verl/experimental/agent_loop/tool_agent_loop.py",
+                 "verl/experimental/agent_loop/tool_parser.py", "verl/trainer/ppo/v1/agent_loop_tq.py",
+                 "verl/workers/engine/fsdp/transformer_impl.py"}
 
 
 def sha(path):
@@ -66,7 +71,61 @@ def verify_assets(root):
     for name in PATCH_NAMES + ["pyproject.toml", "uv.lock"]:
         if sha(assets / name) != record["files"][name]:
             raise ValueError(f"部署资产摘要不一致: {name}")
+    expected = record.get("patched_files")
+    if not isinstance(expected, dict) or set(expected) != PATCHED_FILES \
+            or any(not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{64}", value)
+                   for value in expected.values()):
+        raise ValueError("发布资产缺少全部六个补丁目标的有效摘要")
+    for name in ("pyproject.toml", "uv.lock"):
+        if expected[name] != record["files"][name]:
+            raise ValueError("补丁目标摘要与实际依赖快照不一致")
     return assets
+
+
+def source_file(source, name):
+    """拒绝用符号链接或 junction 代替安装前要核对的真实文件。"""
+    current = Path(source).resolve()
+    for part in PurePosixPath(name).parts:
+        current = current / part
+        if current.is_symlink() or getattr(current, "is_junction", lambda: False)():
+            raise ValueError(f"源码校验目标不能是链接: {name}")
+    if not current.is_file():
+        raise ValueError(f"源码校验目标缺失: {name}")
+    return current
+
+
+def approved_source_files(root, source):
+    """预期摘要来自经发布清单核验的资产，不能随现场 marker 一起重新计算。"""
+    verify_public(root)
+    assets = verify_assets(root)
+    expected = json.loads((assets / "source.json").read_text(encoding="utf-8"))["patched_files"]
+    for name, digest in expected.items():
+        if sha(source_file(source, name)) != digest:
+            raise ValueError(f"源码与已批准补丁结果不一致: {name}")
+    return expected
+
+
+def write_source_marker(root, source, *, replace=False):
+    """全部源码先通过独立摘要核对，才允许创建或显式替换清单。"""
+    source = Path(source).resolve()
+    expected = approved_source_files(root, source)
+    marker_path = source / ".calculator-native.json"
+    if marker_path.is_symlink() or getattr(marker_path, "is_junction", lambda: False)():
+        raise ValueError("拒绝替换指向外部文件的源码清单")
+    marker = {"schema_version": 2, "commit": BASE_COMMIT, "files": expected}
+    with marker_path.open("w" if replace else "x", encoding="utf-8", newline="\n") as stream:
+        stream.write(json.dumps(marker, indent=2) + "\n")
+    return marker
+
+
+def verify_source(root, source):
+    """旧清单、漏项、空清单及同时改写的源码/摘要均不能用于安装。"""
+    expected = approved_source_files(root, source)
+    marker = json.loads(source_file(source, ".calculator-native.json").read_text(encoding="utf-8"))
+    if not isinstance(marker, dict) or marker.get("schema_version") != 2 \
+            or marker.get("commit") != BASE_COMMIT or marker.get("files") != expected:
+        raise ValueError("源码清单过旧、缺项或与已批准摘要不一致；请先显式核验并重建清单")
+    return marker
 
 
 def native_linux():
@@ -107,12 +166,7 @@ def prepare_source(root, target, *, allow_network=False, base_archive=None):
     for name in ("uv.lock", "pyproject.toml"):
         if sha(target / name) != sha(assets / name):
             raise ValueError(f"应用补丁后的 {name} 与实际锁快照不一致")
-    files = ["uv.lock", "pyproject.toml", "verl/experimental/agent_loop/tool_agent_loop.py",
-             "verl/experimental/agent_loop/tool_parser.py", "verl/trainer/ppo/v1/agent_loop_tq.py",
-             "verl/utils/fsdp_utils.py"]
-    marker = {"commit": BASE_COMMIT, "files": {name: sha(target / name) for name in files}}
-    (target / ".calculator-native.json").write_text(json.dumps(marker, indent=2) + "\n", encoding="utf-8")
-    return marker
+    return write_source_marker(root, target)
 
 
 def install(root, source, allow_network=False):
@@ -120,18 +174,8 @@ def install(root, source, allow_network=False):
     if not allow_network:
         raise ValueError("安装需要显式 --allow-network")
     native_linux()
-    verify_public(root)
-    assets = verify_assets(root)
     source = Path(source).resolve()
-    marker = json.loads((source / ".calculator-native.json").read_text(encoding="utf-8"))
-    if marker["commit"] != BASE_COMMIT:
-        raise ValueError("源码未通过固定基线检查")
-    for name, expected in marker["files"].items():
-        if sha(source / name) != expected:
-            raise ValueError(f"源码已改变: {name}")
-    for name in ("uv.lock", "pyproject.toml"):
-        if sha(source / name) != sha(assets / name):
-            raise ValueError("实际依赖声明或锁已改变")
+    verify_source(root, source)
     if (source / ".venv").exists():
         raise FileExistsError("环境已存在；禁止隐式重同步或升级")
     if not shutil.which("uv"):
@@ -147,6 +191,11 @@ def main(argv=None):
     parser.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[2])
     commands = parser.add_subparsers(dest="command")
     commands.add_parser("verify")
+    for name in ("verify-source", "record-source"):
+        command = commands.add_parser(name)
+        command.add_argument("--verl-source", type=Path, required=True)
+        if name == "record-source":
+            command.add_argument("--replace-marker", action="store_true")
     for name in ("prepare-source", "install"):
         command = commands.add_parser(name)
         command.add_argument("--verl-source", type=Path, required=True)
@@ -159,6 +208,10 @@ def main(argv=None):
             prepare_source(args.project_root, args.verl_source, allow_network=args.allow_network, base_archive=args.base_archive)
         elif args.command == "install":
             install(args.project_root, args.verl_source, args.allow_network)
+        elif args.command == "verify-source":
+            verify_source(args.project_root, args.verl_source)
+        elif args.command == "record-source":
+            write_source_marker(args.project_root, args.verl_source, replace=args.replace_marker)
         else:
             verify_public(args.project_root)
             verify_assets(args.project_root)
