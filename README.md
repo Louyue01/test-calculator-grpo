@@ -68,10 +68,26 @@ python3 scripts/remote/git_deploy.py record-source \
 源码已改动时不能靠重新计算现场摘要放行，需另行审查和发布。
 
 安装组合：PyTorch 2.11.0+cu130、SGLang 0.5.12、Transformers 5.9.0、Ray 2.55.1。
+NumPy 固定为 2.3.5，约束为 >=2.0,<2.4，保留 Python 3.12 下 mistral-common 的上限。
 `deploy/verl/uv.lock` 是实际锁，根目录 pyproject 只声明项目及 CPU 开发依赖。
 首次安装仍须验证 wheel 来源、GPU 架构和运行库；不能假定本机锁在云端必然成功。
 
 ## 3. 数据和固定模型（独立于 Git）
+
+安装后，先使用新环境执行严格依赖门禁（只读，不启动 GPU）：
+
+```bash
+/workspace/verl/calculator-native-v1/.venv/bin/python3 scripts/remote/check_dependencies.py
+```
+
+门禁保留原始 `uv pip check` 的输出和非零退出码，只对本次固定版本下的两项已审查冲突
+标记 `accepted_exceptions`：SGLang 声明 Transformers 5.6.0，但 verl 固定使用 5.9.0；
+SGLang 声明 FA4，但当前 rollout 为 torch_native，训练侧保留 FA2 2.8.3。
+这不是原始检查零冲突，也不是 GPU 训练通过。未知诊断、包版本变化、后端变化以及单独
+覆盖 prefill/decode 后端都会拒绝；`canary.sh --train` 在创建实验目录前再次执行门禁。
+更改模型或使用其他配置/直接训练入口前需另行审查，不能将本门禁当作任意配置的兼容承诺。
+旧 NumPy 2.4.6 环境不会通过新门禁。新版本部署须单独批准，准备新的源码和虚拟环境目录，
+保留旧环境，不通过现场 pip 降级或重写 marker 绕过锁和源码校验。
 
 本次 canary 继续使用已验收的英文训练8题/验证32题，不重新随机抽样。
 将两份原始 Parquet 经 SSH 单独传到 `/workspace/data/approved-canary/` 后：

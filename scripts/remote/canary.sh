@@ -25,6 +25,10 @@ done
 # 入口直接核对已验收权重和8/32数据，不能仅靠文件存在便开始训练。
 "${PYTHON_BIN}" "${PROJECT_ROOT}/scripts/remote/prepare_inputs.py" verify-data --data-dir "${CALCULATOR_DATA_DIR}"
 "${PYTHON_BIN}" "${PROJECT_ROOT}/scripts/remote/prepare_inputs.py" verify-model --model-dir "${CALCULATOR_MODEL_PATH}"
+# 训练前严格核对依赖；受控例外保留原始报错，不允许新增冲突进入实验目录。
+if [[ ${MODE} == --train ]]; then
+    "${PYTHON_BIN}" "${PROJECT_ROOT}/scripts/remote/check_dependencies.py" --config "${CONFIG_PATH}"
+fi
 # OmegaConf 点列表由 JSON 编码，数据目录包含空格时也不会被拆成多个参数。
 TRAIN_FILES=$("${PYTHON_BIN}" -c 'import json,sys; print(json.dumps([sys.argv[1]]))' "${CALCULATOR_DATA_DIR}/train.parquet")
 VAL_FILES=$("${PYTHON_BIN}" -c 'import json,sys; print(json.dumps([sys.argv[1]]))' "${CALCULATOR_DATA_DIR}/validation.parquet")

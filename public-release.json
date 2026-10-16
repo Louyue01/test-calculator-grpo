@@ -12,11 +12,6 @@
       "sha256": "ec3bd39b9173db18ca88db64c35a13b8dd8ff969aba5f3a946bf7044e6a2767e"
     },
     {
-      "path": "README.md",
-      "size": 7545,
-      "sha256": "38084ba598aa0e3dcdf591d051b8f06607d25cb5cf6a2cd6c429a7e187702ef8"
-    },
-    {
       "path": "calculator_tool.py",
       "size": 5856,
       "sha256": "d27121678dbe780636d7c0e47e948d4ab6f34df815548f821625efd7f3576480"
@@ -33,8 +28,8 @@
     },
     {
       "path": "deploy/verl/01-dependency-sources.patch",
-      "size": 6171,
-      "sha256": "5731e30d3f76907ff421835c2e6a12db0e47908b9c4ef836c7ca68e260c1239b"
+      "size": 21610,
+      "sha256": "f0d49c302723c6522a39b1aedfb27a4edfb0c218a0667a4285c1c9d33ff01f4a"
     },
     {
       "path": "deploy/verl/02-hermes-tool-stop.patch",
@@ -63,18 +58,18 @@
     },
     {
       "path": "deploy/verl/pyproject.toml",
-      "size": 20985,
-      "sha256": "40685aec240582f104ba98677b942b9f66ced4a7e1e00f4d9d52150fdbff7ef8"
+      "size": 21052,
+      "sha256": "8910a4af5468cf9c42fd9d58c58a344f8a02461a3c48e23a72250b672e1695be"
     },
     {
       "path": "deploy/verl/source.json",
       "size": 1917,
-      "sha256": "6eead5c70504ca7048ce5d8a45cdafb2b1b4d5b429848db9fce939644c188093"
+      "sha256": "ab97b6f46357b6161a86cfbfe1d5a8c02f5c59c75f3e1a665fe3dc6bade54454"
     },
     {
       "path": "deploy/verl/uv.lock",
-      "size": 583871,
-      "sha256": "2bde34ff21e7283607e33438520df9111c332751310bade35918429269097160"
+      "size": 589757,
+      "sha256": "813bb7dd4db7817dc7cde602735fd3e62dce0da85175af2e6f6a0dd9902e84fc"
     },
     {
       "path": "evaluate_model.py",
@@ -90,6 +85,11 @@
       "path": "pyproject.toml",
       "size": 628,
       "sha256": "1fbf59dfab6d721e3df24e51801999dfe73b416b62f80bf0274ebaa3f107fc63"
+    },
+    {
+      "path": "README.md",
+      "size": 8703,
+      "sha256": "76f7fa92e0facd070dd5a89fd08a59307ab3c432b8c29cb0fe90b8750f680de8"
     },
     {
       "path": "reward_function.py",
@@ -118,8 +118,13 @@
     },
     {
       "path": "scripts/remote/canary.sh",
-      "size": 2701,
-      "sha256": "e50837dde1b3139da5d47741d73c0f4dc39b0be1a0f38460ea89b93de041448e"
+      "size": 2947,
+      "sha256": "ce494c53686d661419124a5afb20f0af31ce31cd5213f1eb7b465df962263656"
+    },
+    {
+      "path": "scripts/remote/check_dependencies.py",
+      "size": 5134,
+      "sha256": "bc3a0005b95a14bd82aa597b86543c1604860cb597ee9fffc37190b074032a35"
     },
     {
       "path": "scripts/remote/git_deploy.py",
@@ -150,6 +155,11 @@
       "path": "tests/test_calculator_tool.py",
       "size": 4638,
       "sha256": "6b3819eb3b99d85b4a426cfcfa586dd27ce132620f21f84f43b8d5db81aa796b"
+    },
+    {
+      "path": "tests/test_dependency_gate.py",
+      "size": 8085,
+      "sha256": "3692385f64860ee5337d1df64040e9114be4c7f59e2dd445dd2ff950828de519"
     },
     {
       "path": "tests/test_evaluate_model.py",

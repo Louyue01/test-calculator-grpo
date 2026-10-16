@@ -10,21 +10,21 @@
     "04-single-gpu-state-dict.patch"
   ],
   "patched_files": {
-    "pyproject.toml": "40685aec240582f104ba98677b942b9f66ced4a7e1e00f4d9d52150fdbff7ef8",
-    "uv.lock": "2bde34ff21e7283607e33438520df9111c332751310bade35918429269097160",
+    "pyproject.toml": "8910a4af5468cf9c42fd9d58c58a344f8a02461a3c48e23a72250b672e1695be",
+    "uv.lock": "813bb7dd4db7817dc7cde602735fd3e62dce0da85175af2e6f6a0dd9902e84fc",
     "verl/experimental/agent_loop/tool_agent_loop.py": "ce401de9d7ac1ce0601a3e5e49a6d8a5103ee8ac6a1c23b2ef977b40ae691d3e",
     "verl/experimental/agent_loop/tool_parser.py": "5872a2769a8036b4132f2553b3334ff90c381ec3baa19fd3da6e6269d651972e",
     "verl/trainer/ppo/v1/agent_loop_tq.py": "b1175058310bba787e9dca74589df2ad94b21df5520fdcfe1388b30124de475d",
     "verl/workers/engine/fsdp/transformer_impl.py": "279c7ce82fe4a92c23681bab059890f60aef97973fe4b6b5643405fadc1dd516"
   },
   "files": {
-    "01-dependency-sources.patch": "5731e30d3f76907ff421835c2e6a12db0e47908b9c4ef836c7ca68e260c1239b",
+    "01-dependency-sources.patch": "f0d49c302723c6522a39b1aedfb27a4edfb0c218a0667a4285c1c9d33ff01f4a",
     "02-hermes-tool-stop.patch": "bd986a284c20a35194c294e7cc7bed81481a84804c88505e94c387a7d14f2696",
     "03-deterministic-priority.patch": "697d2bd0e85660a328c6d7afe562aa9b3b4e7e71509a6669d57c7b464ebf1f40",
     "04-single-gpu-state-dict.patch": "069fe4e554b0a756b752473b7d8e97b74a71404e7025aa8d581f1bbb29524d4b",
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "Notice.txt": "f40ed94400d2b9636afb1f8019ab817255b19892d426c40eebe0c60d4850a1c9",
-    "pyproject.toml": "40685aec240582f104ba98677b942b9f66ced4a7e1e00f4d9d52150fdbff7ef8",
-    "uv.lock": "2bde34ff21e7283607e33438520df9111c332751310bade35918429269097160"
+    "pyproject.toml": "8910a4af5468cf9c42fd9d58c58a344f8a02461a3c48e23a72250b672e1695be",
+    "uv.lock": "813bb7dd4db7817dc7cde602735fd3e62dce0da85175af2e6f6a0dd9902e84fc"
   }
 }

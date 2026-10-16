@@ -40,7 +40,7 @@ verl-core = [
     "datasets",
     "dill",
     "hydra-core",
-    "numpy>=2.0.0",
+    "numpy>=2.0.0,<2.4",
     "pandas",
     "peft",
     "pyarrow>=19.0.0",
@@ -359,7 +359,7 @@ conflicts = [
 #     an `extra` marker back unless a backend truly needs to diverge: such a
 #     marker matches only a requirement verl declares under that extra, never a
 #     transitive one, and a fork no override matches drops transformers outright.
-#   * numpy>=2.0.0 floor.
+#   * numpy>=2.0.0,<2.4：保留 Python 3.12 下 mistral-common 声明的上限。
 #   * kernels>=0.12.0,<0.13 — sglang deps `kernels` unbounded; later releases
 #     broke transformers' hub_kernels.py before (huggingface/transformers#46291),
 #     so pin to transformers 5.9.0's own window (satisfies sglang too) and move
@@ -377,7 +377,7 @@ conflicts = [
 #     non-default "fa4" attention backend.
 override-dependencies = [
     "transformers==5.9.0",
-    "numpy>=2.0.0",
+    "numpy>=2.0.0,<2.4",
     "kernels>=0.12.0,<0.13",
     "flash-attn-4 ; platform_machine == 'flash-attn-4-excluded'",
     # aarch64 only: nvidia-cusparselt-cu13 0.8.0/0.8.1 ship an internal WHEEL tag
